@@ -44,6 +44,15 @@ def search():
                     sectionData = {})
 
 
+# Search Route
+
+
+@route('/search', method="POST")
+def search():
+    
+
+
+
 # Dynamic Routes
 
 
