@@ -49,7 +49,26 @@ def search():
 
 @route('/search', method="POST")
 def search():
-    
+    sectionTemplate = "./templates/search_result.tpl"
+    search_input = request.forms.get('q')
+    shows_list = [json.loads(utils.getJsonFromFile(elem)) for elem in utils.AVAILABE_SHOWS]
+    search_output = []
+
+    for shows in range(len(shows_list)-1):
+        for episodes in range(len(shows_list[shows]['_embedded']['episodes'])-1):
+            show_current = shows_list[shows]
+            if search_input in str(show_current['name']) \
+                    or search_input in str(show_current['_embedded']['episodes'][episodes]['name']) \
+                    or search_input in str(show_current['_embedded']['episodes'][episodes]['summary']):
+                search_match = {
+                    "show_id": shows_list[shows]['id'],
+                    "episode_id": shows_list[shows]['_embedded']['episodes'][episode]['id'],
+                    "summary": (shows_list[shows]['name']+": "+shows_list[shows]['_embedded']['episodes'][episodes]['name'])
+                }
+                search_output.append(search_match)
+
+    return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate,
+                    sectionData = search_output, query = search_input)
 
 
 
