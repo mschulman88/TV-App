@@ -4,6 +4,10 @@ from bottle import (get, post, redirect, request, route, run, static_file,
 import utils
 import json
 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 
 # Static Routes
 
@@ -57,12 +61,12 @@ def search():
     for shows in range(len(shows_list)-1):
         for episodes in range(len(shows_list[shows]['_embedded']['episodes'])-1):
             show_current = shows_list[shows]
-            if search_input in show_current['name'] \
-                    or search_input in show_current['_embedded']['episodes'][episodes]['name'] \
-                    or search_input in show_current['_embedded']['episodes'][episodes]['summary']:
+            if search_input in str(show_current['name']) \
+                    or search_input in str(show_current['_embedded']['episodes'][episodes]['name']) \
+                    or search_input in str(show_current['_embedded']['episodes'][episodes]['summary']):
                 search_match = {
-                    "show_id": shows_list[shows]['id'],
-                    "episode_id": shows_list[shows]['_embedded']['episodes'][episodes]['id'],
+                    "showid": shows_list[shows]['id'],
+                    "episodeid": shows_list[shows]['_embedded']['episodes'][episodes]['id'],
                     "text": (shows_list[shows]['name']+": "+shows_list[shows]['_embedded']['episodes'][episodes]['name'])
                 }
                 search_output.append(search_match)

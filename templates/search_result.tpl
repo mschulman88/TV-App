@@ -2,10 +2,10 @@
 <br><br>
 <h2>Search Results for '{{query}}'</h2>
 <ul class="search-results">
-% for r in results:
+% for r in result:
 <li class="search-result" onclick="Browse.loadEpisode('{{r['showid']}}', '{{r['episodeid']}}')">{{r['text']}}</li>
 % end
-% if not results:
+% if not result:
     No Resutls :(
 % end
 
